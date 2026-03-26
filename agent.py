@@ -66,14 +66,16 @@ class Agent:
     def optimizeModel(self, memory, batch_size, nStep):
 
         if len(memory) < batch_size:
-            return
+            return None, None
         state = []
         action = []
         nextState = []
         reward = []
         done = []
 
-        for tuples in memory.sample(batch_size) :
+        selectedTuples, index, betaWeight = memory.sample(batch_size)
+
+        for tuples in selectedTuples :
             state.append(tuples.state)
             action.append(tuples.action)
             nextState.append(tuples.next_state)
@@ -97,9 +99,20 @@ class Agent:
 
         policyPrediction = torch.gather(actual_predictions, 1, batch_action.unsqueeze(1))
 
-        criterion = nn.SmoothL1Loss()
+        if memory.usePer :
+            criterion = nn.SmoothL1Loss(reduction='none')
+            errors = criterion(policyPrediction, bellmanTarget.unsqueeze(1))
+      
+            weights_tensor = torch.tensor(betaWeight, device=self.device, dtype=torch.float32).unsqueeze(1)
+            loss = (errors * weights_tensor).mean()
+            
+            with torch.no_grad():
+                new_deltas = torch.abs(policyPrediction - bellmanTarget.unsqueeze(1)).detach().cpu().numpy()
+            memory.updatePrio(new_deltas, index)
 
-        loss = criterion(policyPrediction, bellmanTarget.unsqueeze(1))
+        else : 
+            criterion = nn.SmoothL1Loss()
+            loss = criterion(policyPrediction, bellmanTarget.unsqueeze(1))
 
         self.optimizer.zero_grad()
         loss.backward()
@@ -107,6 +120,7 @@ class Agent:
         torch.nn.utils.clip_grad_value_(self.onlineNetwork.parameters(), 100)
         self.optimizer.step()
 
+        return torch.abs(policyPrediction - bellmanTarget.unsqueeze(1)).detach().cpu().numpy(), index #Monstrueux mais j'ai pas trouvé mieux pour le moment
 
 
     def softUpdateNetwork(self):
