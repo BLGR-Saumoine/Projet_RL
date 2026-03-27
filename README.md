@@ -49,7 +49,6 @@ This project aims to implement advanced Deep Q-Learning algorithms from scratch 
 
 ### Implementation Details
 - Pure PyTorch implementation with customized training loops.
-- Graceful interruption handling (`KeyboardInterrupt`) to save intermediate model checkpoints.
 - Moving average visualizations to track the agent's transition from pure exploration (random play/losing) to defensive mastery, and finally to offensive winning strategies.
 
 ## Results & Insights
