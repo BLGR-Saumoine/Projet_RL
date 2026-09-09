@@ -82,10 +82,8 @@ class Agent:
             reward.append(tuples.reward)
             done.append(tuples.gameIsOver)
 
-        #batch_state = torch.cat(state).to(self.device)
         batch_state = torch.cat(state).to(self.device, dtype=torch.float32) / 255.0
         batch_action = torch.tensor(action, device=self.device)
-        #batch_nextState = torch.cat(nextState).to(self.device)
         batch_nextState = torch.cat(nextState).to(self.device, dtype=torch.float32) / 255.0
         batch_reward = torch.tensor(reward, device=self.device)
         batch_done = torch.tensor(done, dtype=torch.bool, device=self.device)
