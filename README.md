@@ -60,7 +60,7 @@ The experiments demonstrate clear evidence of the agent's learning phases:
 
 <div align="center">
 <figure>
-  <video src="https://github.com/user-attachments/assets/861d8bd1-28ce-42a1-9ea1-faafbd654609" controls width="50%"></video>
+  <video src="https://github.com/user-attachments/assets/861d8bd1-28ce-42a1-9ea1-faafbd654609" controls width="70%"></video>
   <figcaption><em>Average performances on PONG (Green)</em></figcaption>
 </figure>
 </div>
