@@ -58,6 +58,13 @@ The experiments demonstrate clear evidence of the agent's learning phases:
 - **Phase 2 (Defense)**: Significant increase in game length (number of steps) as the agent learns to survive without necessarily scoring.
 - **Phase 3 (Mastery)**: Rapid score improvement leading to near-perfect games (e.g., +17 to +21 scores in Pong), heavily accelerated by the combination of Dueling DQN, PER, and 3-step returns.
 
+<div align="center">
+<figure>
+  <video src="double3step_PONG.mp4" controls width="50%"></video>
+  <figcaption><em>Average performances on PONG (Green)</em></figcaption>
+</figure>
+</div>
+
 ## Key References
 - Mnih et al. (2015) - Human-level control through deep reinforcement learning
 - Wang et al. (2015) - Dueling Network Architectures for Deep Reinforcement Learning
